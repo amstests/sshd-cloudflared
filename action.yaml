@@ -5,4 +5,5 @@ runs:
   steps:
     - run: chmod +x ${GITHUB_WORKSPACE}/setup-ssh
       shell: bash
-    - run: bash ${GITHUB_WORKSPACE}/setup-ssh
+    - run: ./${GITHUB_WORKSPACE}/setup-ssh
+      shell: bash

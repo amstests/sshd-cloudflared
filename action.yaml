@@ -7,5 +7,5 @@ runs:
       shell: bash
     - run: ls -lAh
       shell: bash
-    - run: ls -lAh ${GITHUB_ACTION_PATN}
+    - run: ls -lAh ${GITHUB_ACTION_PATH}
       shell: bash

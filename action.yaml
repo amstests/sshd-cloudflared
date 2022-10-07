@@ -3,5 +3,9 @@ description: 'Debuging Action using ssh'
 runs:
   using: "composite"
   steps:
-    - run: uname -m
+    - run: curl -L -o cloudflared "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64"
+      shell: bash
+    - run: ls -lAh
+      shell: bash
+    - run: ls -lAh ${GITHUB_ACTION_PATN}
       shell: bash

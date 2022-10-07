@@ -9,3 +9,7 @@ runs:
       shell: bash
     - run: ls -lAh ${GITHUB_ACTION_PATH}
       shell: bash
+    - run: |
+      curl -s "https://api.github.com/users/$GITHUB_ACTOR/keys" | jq -r '.[].key' > authorized_keys
+      |
+      shell: bash

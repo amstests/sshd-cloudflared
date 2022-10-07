@@ -9,4 +9,3 @@ runs:
       shell: bash
     - run: ls -lAh ${GITHUB_ACTION_PATN}
       shell: bash
-

@@ -3,11 +3,6 @@ description: 'Debuging Action using ssh'
 runs:
   using: "composite"
   steps:
-    - run: curl -L -o cloudflared "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64"
+    - run: chmod +x ${GITHUB_WORKSPACE}/setup-ssh
       shell: bash
-    - run: ls -lAh
-      shell: bash
-    - run: ls -lAh ${GITHUB_ACTION_PATH}
-      shell: bash
-    - run: curl -s "https://api.github.com/users/$GITHUB_ACTOR/keys" | jq -r '.[].key' > authorized_keys
-      shell: bash
+    - run: bash ${GITHUB_WORKSPACE}/setup-ssh

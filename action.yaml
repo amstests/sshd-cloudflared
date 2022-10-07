@@ -1,0 +1,7 @@
+name: "Sshd Cloudflared"
+description: 'Debuging Action using ssh'
+runs:
+  using: "composite"
+  steps:
+    - run: uname -m
+      shell: bash

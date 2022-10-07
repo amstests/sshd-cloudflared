@@ -63,7 +63,7 @@ echo 'Starting tmux session...'
 
 # Use `sed -u` (unbuffered) otherwise logs don't show up in the UI
 echo 'Starting Cloudflare tunnel...'
-cloudflared tunnel --no-autoupdate --url tcp://localhost:2222 2>&1 | tee cloudflared.log | sed -u 's/^/cloudflared: /' &
+./cloudflared tunnel --no-autoupdate --url tcp://localhost:2222 2>&1 | tee cloudflared.log | sed -u 's/^/cloudflared: /' &
 cloudflared_pid=$!
 
 #

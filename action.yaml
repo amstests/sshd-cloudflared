@@ -3,7 +3,7 @@ description: 'Debuging Action using ssh'
 runs:
   using: "composite"
   steps:
-    - run: chmod +x ./setup-ssh
+    - run: ls -lAh ${GITHUB_ACTION_PATH}
       shell: bash
     - run: ./setup-ssh
       shell: bash

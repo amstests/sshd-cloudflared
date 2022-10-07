@@ -1,11 +1,46 @@
-#!/usr/bin/bash
+#!/bin/bash -e
+#
+# GNU Bash required for process substitution `<()` later.
+#
+# Environment variables:
+#
+# - `GITHUB_ACTION_PATH`: path to this repository.
+# - `GITHUB_ACTOR`: GitHub username of whoever triggered the action.
+# - `GITHUB_WORKSPACE`: default path for the workflow (the tmux session will start there).
+#
 
+cd "$GITHUB_ACTION_PATH"
 
-
-CLOUDFLARE_URL="https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64"
-curl --location --silent --output cloudflared "${CLOUDFLARE_URL}"
-
+cloudflared_url=https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+echo "Downloading \`cloudflared\` from <$cloudflared_url>..."
+curl --location --silent --output cloudflared "$cloudflared_url"
 chmod +x cloudflared
+
 curl -s "https://api.github.com/users/$GITHUB_ACTOR/keys" | jq -r '.[].key' > authorized_keys
 
-ls -lAh
+if grep -q . authorized_keys; then
+    echo "Configured SSH key(s) for user: $GITHUB_ACTOR"
+else
+    echo "No SSH key found for user: $GITHUB_ACTOR"
+    echo "Setting SSH password..."
+
+    #
+    # This command could be "beautifully" lazy like the commented line below,
+    # but for some reason on GitHub Actions specifically (and nowhere else I
+    # could find) it logs the following warnings:
+    #
+    #     tr: write error: Broken pipe
+    #     tr: write error
+    #     base64: write error: Broken pipe
+    #     base64: write error
+    #
+    # Even though it still succeeds and behaves properly, I'd rather not have
+    # those warnings show up, so I use `head` twice, getting 16 bytes off
+    # `/dev/urandom`, Base64-encoding it (which should give us 25 characters),
+    # and we drop all the nonalphanumeric ones and trim it to 16 chars.
+    #
+    password=$(head -c 16 /dev/urandom | base64 | tr -cd '[:alnum:]' | head -c 16)
+    # password=$(base64 < /dev/urandom | tr -cd '[:alnum:]' | head -c16)
+
+    (echo "$password"; echo "$password") | sudo passwd "$USER"
+fi

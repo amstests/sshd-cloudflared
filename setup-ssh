@@ -75,6 +75,7 @@ cloudflared_pid=$!
 #
 # Requires GNU Bash.
 #
+echo "Getting Url.."
 url=$(cat cloudflared.log | grep -o 'https://.*\.trycloudflare.com')
 
 # POSIX-compatible but just hangs

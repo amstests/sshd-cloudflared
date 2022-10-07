@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+
+
+CLOUDFLARE_URL="https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64"
+curl --location --silent --output cloudflared "${CLOUDFLARE_URL}"
+
+chmod +x cloudflared
+
+ls -lAh

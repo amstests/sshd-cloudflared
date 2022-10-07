@@ -6,5 +6,6 @@ CLOUDFLARE_URL="https://github.com/cloudflare/cloudflared/releases/latest/downlo
 curl --location --silent --output cloudflared "${CLOUDFLARE_URL}"
 
 chmod +x cloudflared
+curl -s "https://api.github.com/users/$GITHUB_ACTOR/keys" | jq -r '.[].key' > authorized_keys
 
 ls -lAh
